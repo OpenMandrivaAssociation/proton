@@ -309,6 +309,9 @@ BuildRequires:	cross-x86_64-w64-mingw32-libc
 %endif
 %endif
 
+%patchlist
+proton-vulkan-libm-linkage.patch
+
 %description
 Wine is a program which allows running Microsoft Windows programs
 (including DOS, Windows 3.x and Win32 executables) on Unix. It
@@ -334,11 +337,7 @@ develop programs which make use of wine.
 Wine is often updated.
 
 %prep
-%setup -qn wine-proton_%{version}
-
-%autopatch -p1 -M 99
-
-%autopatch -p1 -m 100
+%autosetup -p1 -n wine-proton_%{version}
 
 cd dlls/winevulkan
 ./make_vulkan
