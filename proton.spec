@@ -103,6 +103,7 @@ BuildRequires:	d3d-devel >= 10.4.0-1
 BuildRequires:	pkgconfig(lcms2)
 BuildRequires:	pkgconfig(osmesa)
 BuildRequires:	pkgconfig(libglvnd)
+BuildRequires:	pkgconfig(libdrm)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	ieee1284-devel
@@ -200,6 +201,7 @@ BuildRequires:	libvulkan-devel
 BuildRequires:	devel(libvkd3d)
 BuildRequires:	devel(libfontconfig)
 BuildRequires:	devel(libfreetype)
+BuildRequires:	devel(libdrm)
 BuildRequires:	devel(libgstreamer-1.0)
 BuildRequires:	devel(libgstvideo-1.0)
 BuildRequires:	devel(libgstaudio-1.0)
