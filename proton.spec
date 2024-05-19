@@ -298,6 +298,7 @@ Suggests:	%{dlopen_req ncursesw}
 %rename		wine64
 %endif
 %ifarch %{ix86} %{x86_64}
+BuildRequires:	mingw
 BuildRequires:	cross-i686-w64-mingw32-binutils >= 2.38-2
 BuildRequires:	cross-i686-w64-mingw32-gcc-bootstrap
 BuildRequires:	cross-i686-w64-mingw32-libc
