@@ -29,7 +29,7 @@
 
 Name:		proton
 Version:	9.0
-Release:	%{?beta:0.%{beta}.}1
+Release:	%{?beta:0.%{beta}.}2
 Source0:	https://github.com/ValveSoftware/wine/archive/refs/heads/proton_%{version}.tar.gz
 Summary:	Proton - runs MS Windows programs
 License:	LGPLv2+
@@ -308,6 +308,7 @@ BuildRequires:	cross-x86_64-w64-mingw32-gcc-bootstrap
 BuildRequires:	cross-x86_64-w64-mingw32-libc
 %endif
 %endif
+Recommends:	direct3d-implementation
 
 %patchlist
 proton-vulkan-libm-linkage.patch
@@ -335,6 +336,24 @@ Wine is a program which allows running Microsoft Windows programs
 develop programs which make use of wine.
 
 Wine is often updated.
+
+%package direct3d
+Summary:       The Direct3D implementation from the Wine project
+Group:         Emulators
+Provides:      direct3d-implementation
+
+%description direct3d
+The Direct3D implementation from the Wine project
+
+Direct3D is a Windows 3D acceleration library used by many games
+and applications.
+
+This is one of several alternative implementations of this interface.
+
+wine-direct3d is the original implementation from Wine
+proton-direct3d is the implementation from Proton
+proton-experimental-direct3d is the implementation from Proton-experimental
+dxvk is a reimplementation on top of Vulkan rather than OpenGL
 
 %prep
 %autosetup -p1 -n wine-proton_%{version}
@@ -631,6 +650,10 @@ done
 %{_libdir}/wine/*/*.sys
 %{_libdir}/wine/*/*.tlb
 %{_libdir}/wine/*/*.msstyles
+%exclude %{_libdir}/wine/*/d3d9.dll
+%exclude %{_libdir}/wine/*/d3d10core.dll
+%exclude %{_libdir}/wine/*/d3d11.dll
+%exclude %{_libdir}/wine/*/dxgi.dll
 %if %{with wow64}
 %dir %{_prefix}/lib/wine
 %dir %{_prefix}/lib/wine/i386-unix
@@ -653,7 +676,23 @@ done
 %{_prefix}/lib/wine/*/*.exe16
 %{_prefix}/lib/wine/*/*.drv16
 %{_prefix}/lib/wine/*/*.mod16
+%exclude %{_prefix}/lib/wine/*/d3d9.dll
+%exclude %{_prefix}/lib/wine/*/d3d10core.dll
+%exclude %{_prefix}/lib/wine/*/d3d11.dll
+%exclude %{_prefix}/lib/wine/*/dxgi.dll
 %endif
+
+%files direct3d
+%if %{with wow64}
+%{_prefix}/lib/wine/*/d3d9.dll
+%{_prefix}/lib/wine/*/d3d10core.dll
+%{_prefix}/lib/wine/*/d3d11.dll
+%{_prefix}/lib/wine/*/dxgi.dll
+%endif
+%{_libdir}/wine/*/d3d9.dll
+%{_libdir}/wine/*/d3d10core.dll
+%{_libdir}/wine/*/d3d11.dll
+%{_libdir}/wine/*/dxgi.dll
 
 %files devel
 %{_libdir}/wine/*/*.a
