@@ -650,6 +650,7 @@ done
 %{_libdir}/wine/*/*.sys
 %{_libdir}/wine/*/*.tlb
 %{_libdir}/wine/*/*.msstyles
+%exclude %{_libdir}/wine/*/d3d8.dll
 %exclude %{_libdir}/wine/*/d3d9.dll
 %exclude %{_libdir}/wine/*/d3d10core.dll
 %exclude %{_libdir}/wine/*/d3d11.dll
@@ -676,6 +677,7 @@ done
 %{_prefix}/lib/wine/*/*.exe16
 %{_prefix}/lib/wine/*/*.drv16
 %{_prefix}/lib/wine/*/*.mod16
+%exclude %{_prefix}/lib/wine/*/d3d8.dll
 %exclude %{_prefix}/lib/wine/*/d3d9.dll
 %exclude %{_prefix}/lib/wine/*/d3d10core.dll
 %exclude %{_prefix}/lib/wine/*/d3d11.dll
@@ -684,11 +686,13 @@ done
 
 %files direct3d
 %if %{with wow64}
+%{_prefix}/lib/wine/*/d3d8.dll
 %{_prefix}/lib/wine/*/d3d9.dll
 %{_prefix}/lib/wine/*/d3d10core.dll
 %{_prefix}/lib/wine/*/d3d11.dll
 %{_prefix}/lib/wine/*/dxgi.dll
 %endif
+%{_libdir}/wine/*/d3d8.dll
 %{_libdir}/wine/*/d3d9.dll
 %{_libdir}/wine/*/d3d10core.dll
 %{_libdir}/wine/*/d3d11.dll
