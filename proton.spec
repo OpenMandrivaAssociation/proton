@@ -23,14 +23,14 @@
 
 %define major 1
 %define devname %{mklibname -d wine}
-#define beta rc4
 
 %bcond_with rebuild_unicode
 
 Name:		proton
-Version:	9.0
-Release:	%{?beta:0.%{beta}.}2
-Source0:	https://github.com/ValveSoftware/wine/archive/refs/heads/proton_%{version}.tar.gz
+Version:	9.0.20240927
+%define major %(echo %{version}|cut -d. -f1-2)
+Release:	1
+Source0:	https://github.com/ValveSoftware/wine/archive/refs/heads/proton_%{major}.tar.gz
 Summary:	Proton - runs MS Windows programs
 License:	LGPLv2+
 Group:		Emulators
@@ -356,7 +356,7 @@ proton-experimental-direct3d is the implementation from Proton-experimental
 dxvk is a reimplementation on top of Vulkan rather than OpenGL
 
 %prep
-%autosetup -p1 -n wine-proton_%{version}
+%autosetup -p1 -n wine-proton_%{major}
 
 cd dlls/winevulkan
 ./make_vulkan
