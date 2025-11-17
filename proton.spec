@@ -27,8 +27,8 @@
 %bcond_with rebuild_unicode
 
 Name:		proton
-Version:	9.0.20240927
-%define major %(echo %{version}|cut -d. -f1-2)
+Version:	10.0+20251115
+%define major %(echo %{version}|cut -d+ -f1)
 Release:	1
 Source0:	https://github.com/ValveSoftware/wine/archive/refs/heads/proton_%{major}.tar.gz
 Summary:	Proton - runs MS Windows programs
@@ -99,7 +99,7 @@ BuildRequires:	gsm-devel
 BuildRequires:	unixODBC-devel
 BuildRequires:	pkgconfig(gnutls)
 BuildRequires:	gettext-devel
-BuildRequires:	d3d-devel >= 10.4.0-1
+BuildRequires:	%mklibname -d piper2024
 BuildRequires:	pkgconfig(lcms2)
 BuildRequires:	pkgconfig(osmesa)
 BuildRequires:	pkgconfig(libglvnd)
@@ -176,7 +176,6 @@ BuildRequires:	devel(libdbus-1)
 BuildRequires:	devel(libgsm)
 BuildRequires:	devel(libodbc)
 BuildRequires:	devel(libgnutls)
-BuildRequires:	libd3dadapter9-devel
 BuildRequires:	devel(liblcms2)
 BuildRequires:	devel(libOSMesa)
 BuildRequires:	devel(libGL)
@@ -313,6 +312,7 @@ Recommends:	direct3d-implementation
 %patchlist
 proton-vulkan-libm-linkage.patch
 proton-9.0-compile.patch
+proton-10.0-ffmpeg-8.0.patch
 
 %description
 Wine is a program which allows running Microsoft Windows programs
@@ -434,13 +434,13 @@ PKG_CONFIG_PATH="%{_prefix}/lib/pkgconfig:%{_datadir}/pkgconfig" \
 	echo "32-bit configure failed. Full config.log:"
 	cat config.log
 fi
-if cat config.log |grep "won't be supported" |grep -q -vE '(OSSv4|netapi|pcsclite)'; then
+if cat config.log |grep "won't be supported" |grep -q -vE '(OSSv4|netapi|pcsclite|piper)'; then
 	echo "Full config.log:"
 	cat config.log
-	echo "**********************************************"
+	echo "*****************************************************"
 	echo "Missing 32-bit dependencies detected:"
-	echo "(Only missing OSSv4, netapi, pcsclite are OK):"
-	echo "**********************************************"
+	echo "(Only missing OSSv4, netapi, pcsclite, piper are OK):"
+	echo "*****************************************************"
 	cat config.log |grep "won't be supported"
 	exit 1
 fi
