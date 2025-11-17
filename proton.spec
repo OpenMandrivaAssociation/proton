@@ -38,6 +38,10 @@ URL:		https://www.winehq.com/
 
 Source2:	wine.binfmt
 
+%define vk_version 1.4.318
+Source10:	https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v%{vk_version}/xml/vk.xml
+Source11:	https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v%{vk_version}/xml/video.xml
+
 %ifarch %{x86_64}
 # Wine needs GCC 4.4+ on x86_64 for MS ABI support.
 BuildRequires:	gcc >= 4.4
@@ -360,6 +364,15 @@ dxvk is a reimplementation on top of Vulkan rather than OpenGL
 %autosetup -p1 -n wine-proton_%{major}
 
 cd dlls/winevulkan
+VK_VERSION=$(grep ^VK_XML_VERSION make_vulkan |cut -d'"' -f2)
+if [ "$VK_VERSION" != "%{vk_version}" ]; then
+	echo "Update the Vulkan XML files to $VK_VERSION"
+	exit 1
+fi
+export XDG_CACHE_HOME=$(pwd)/xdgcache
+mkdir -p xdgcache/wine
+cp %{S:10} xdgcache/wine/vk-%{vk_version}.xml
+cp %{S:11} xdgcache/wine/video-%{vk_version}.xml
 ./make_vulkan
 cd ../..
 tools/make_requests
