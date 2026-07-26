@@ -54,6 +54,8 @@ BuildRequires:	pkgconfig(sane-backends)
 BuildRequires:	pkgconfig(systemd)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	slibtool
 BuildRequires:	docbook-utils
 BuildRequires:	docbook-dtd-sgml
 BuildRequires:	docbook-utils
