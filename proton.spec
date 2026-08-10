@@ -37,8 +37,13 @@ Source10:	https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v%{vk_versi
 Source11:	https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v%{vk_version}/xml/video.xml
 
 %ifarch %{x86_64}
-# Wine needs GCC 4.4+ on x86_64 for MS ABI support.
-BuildRequires:	gcc >= 4.4
+# Wine needs GCC on x86_64 for MS ABI support. Require the actual
+# binaries — a virtual "gcc" provide can be satisfied without /usr/bin/gcc.
+BuildRequires:	/usr/bin/gcc
+BuildRequires:	/usr/bin/g++
+BuildRequires:	binutils
+# gcc 16 specs always pass -latomic_asneeded
+BuildRequires:	%{mklibname -d atomic}
 %endif
 
 BuildRequires:	bison
@@ -99,6 +104,7 @@ BuildRequires:	unixODBC-devel
 BuildRequires:	pkgconfig(gnutls)
 BuildRequires:	gettext-devel
 BuildRequires:	%mklibname -d piper2024
+BuildRequires:	%mklibname -d vosk
 BuildRequires:	pkgconfig(lcms2)
 BuildRequires:	pkgconfig(osmesa)
 BuildRequires:	pkgconfig(libglvnd)
@@ -310,7 +316,8 @@ cd build
 	--enable-archs=i386,x86_64,arm,aarch64 \
 	--with-mingw=clang \
 	--with-pulse \
-	--with-gstreamer
+	--with-gstreamer \
+	|| { echo "configure failed. Full config.log:"; cat config.log; exit 1; }
 
 if cat config.log |grep "won't be supported" |grep -q -vE '(OSSv4|capi20)'; then
 	echo "Full config.log:"
