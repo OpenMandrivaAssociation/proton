@@ -446,9 +446,11 @@ done
 %doc ANNOUNCE.md AUTHORS README.md
 %{_bindir}/wine
 %{_libdir}/wine/*/wine
-%{_libdir}/wine/*/wine64
 %{_libdir}/wine/*/wine-preloader
+%ifarch %{x86_64}
+%{_libdir}/wine/*/wine64
 %{_libdir}/wine/*/wine64-preloader
+%endif
 %config %{_binfmtdir}/wine.conf
 %{_bindir}/winecfg
 %{_bindir}/wineconsole*
@@ -505,8 +507,14 @@ done
 %dir %{_libdir}/wine
 %ifarch %{x86_64}
 %dir %{_libdir}/wine/x86_64-unix
-%dir %{_libdir}/wine/x86_64-windows
 %{_libdir}/wine/x86_64-*/*.so
+%endif
+%ifarch %{aarch64}
+%dir %{_libdir}/wine/aarch64-unix
+%{_libdir}/wine/aarch64-*/*.so
+%endif
+# x86_64 PE is built on all arches via --enable-archs
+%dir %{_libdir}/wine/x86_64-windows
 %{_libdir}/wine/x86_64-*/*.acm
 %{_libdir}/wine/x86_64-*/*.ax
 %{_libdir}/wine/x86_64-*/*.com
@@ -526,7 +534,6 @@ done
 %exclude %{_libdir}/wine/x86_64-*/d3d12core.dll
 %exclude %{_libdir}/wine/x86_64-*/d3d12.dll
 %exclude %{_libdir}/wine/x86_64-*/dxgi.dll
-%endif
 %dir %{_libdir}/wine/aarch64-windows
 %{_libdir}/wine/aarch64-*/*.acm
 %{_libdir}/wine/aarch64-*/*.ax
