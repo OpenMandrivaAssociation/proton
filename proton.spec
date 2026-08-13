@@ -23,7 +23,7 @@
 Name:		proton
 Version:	11.0+20260808
 %define major %(echo %{version}|cut -d+ -f1)
-Release:	1
+Release:	2
 Source0:	https://github.com/ValveSoftware/wine/archive/refs/heads/proton_%{major}.tar.gz
 Summary:	Proton - runs MS Windows programs
 License:	LGPLv2+
