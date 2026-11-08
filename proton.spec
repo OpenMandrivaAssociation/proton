@@ -3,6 +3,9 @@
 # /tmp/ccHA1ZYg.ltrans0.ltrans.o(.text+0x12): error: undefined reference to 'thread_data'
 # /tmp/ccHA1ZYg.ltrans0.ltrans.o(.text+0x2a): error: undefined reference to 'wld_start'
 %define _disable_lto 1
+# The znver1 builder SIGKILL'd make -j32 while linking (no compiler error).
+# Cap jobs so the parallel link fits in RAM.
+%global _smp_ncpus_max 8
 # OpenCL support doesn't see cl* functions even with -lCL, but works if built...
 %define _disable_ld_no_undefined 1
 # Build time errors with lld 9.0.0-rc1 on x86_32 only
