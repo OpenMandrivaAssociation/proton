@@ -1,0 +1,23 @@
+--- wine-proton_11.0/libs/sqlite3/sqlite3.c
++++ wine-proton_11.0/libs/sqlite3/sqlite3.c
+@@ -14632,7 +14632,10 @@
+ #      pragma intrinsic(_byteswap_ushort)
+ #      pragma intrinsic(_byteswap_ulong)
+ #      pragma intrinsic(_byteswap_uint64)
++#      /* Clang's MSVC mode has no _ReadWriteBarrier builtin on armv7-windows. */
++#      if !defined(__clang__) || !defined(_M_ARM)
+ #      pragma intrinsic(_ReadWriteBarrier)
++#      endif
+ #    else
+ #      include <cmnintrin.h>
+ #    endif
+@@ -30708,6 +30711,9 @@
+   SQLITE_MEMORY_BARRIER;
+ #elif defined(__GNUC__)
+   __sync_synchronize();
++#elif defined(__clang__) && defined(_M_ARM)
++  /* Clang's MSVC mode has no _ReadWriteBarrier builtin for armv7-windows. */
++  __sync_synchronize();
+ #elif MSVC_VERSION>=1400
+   _ReadWriteBarrier();
+ #elif defined(MemoryBarrier)

@@ -21,9 +21,9 @@
 %bcond_with rebuild_unicode
 
 Name:		proton
-Version:	11.0+20260808
+Version:	11.0+20261108
 %define major %(echo %{version}|cut -d+ -f1)
-Release:	2
+Release:	1
 Source0:	https://github.com/ValveSoftware/wine/archive/refs/heads/proton_%{major}.tar.gz
 Summary:	Proton - runs MS Windows programs
 License:	LGPLv2+
@@ -199,6 +199,7 @@ proton-11.0-arm-exception-dir-size.patch
 proton-11.0-makedep-compiler-rt.patch
 proton-11.0-compiler-rt-chkstk.patch
 proton-11.0-mscorwks-register.patch
+proton-11.0-sqlite-memory-barrier.patch
 
 %description
 Wine is a program which allows running Microsoft Windows programs
